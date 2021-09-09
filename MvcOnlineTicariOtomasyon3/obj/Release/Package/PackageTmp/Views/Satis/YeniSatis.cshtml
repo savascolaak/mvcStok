@@ -1,0 +1,136 @@
+﻿@model MvcOnlineTicariOtomasyon3.Models.Siniflar.SatisHareket
+@{
+    ViewBag.Title = "YeniSatis";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<link href="~/Content/css/select2.css" rel="stylesheet" />
+
+<br />
+<h2>Yeni Satış Sayfası</h2>
+<br />
+
+<form class="form-group" method="post">
+
+    @Html.LabelFor(x => x.Urun)
+    <select class="Country" style="width:1200px; height:20px;" name="Urunid">
+    </select>
+    @Html.HiddenFor(x => x.Urunid)
+    @*@Html.DropDownListFor(x => x.Urunid, (List<SelectListItem>)ViewBag.dgr1, new { @class = "form-control" })*@
+    <br />
+    @Html.Label("Cari")
+    <select class="Cari" style="width:1200px; height:20px;" name="Cariid">
+    </select>
+    @*@Html.DropDownListFor(x => x.Cariid, (List<SelectListItem>)ViewBag.dgr2, new { @class = "form-control" })*@
+    <br />
+    @Html.LabelFor(x => x.Personel)
+    <select class="Personel" style="width:1200px;" name="Personelid">
+    </select>
+    @Html.HiddenFor(x => x.Personelid)
+    @*@Html.DropDownListFor(x => x.Personelid, (List<SelectListItem>)ViewBag.dgr3, new { @class = "form-control" })
+        <br />*@
+    @Html.LabelFor(x => x.Adet)
+    <input type="number" id="txt2" name="Adet" onchange=Topla() min="1" class="form-control" />
+    <br />
+    <br />
+    @Html.LabelFor(x => x.Fiyat)
+    <input type="text" id="txt1" name="Fiyat" onchange=Topla() class="form-control" />
+    <br />
+    <br />
+    @Html.LabelFor(x => x.ToplamTutar)
+    <input type="text" id="txt3" name="ToplamTutar" class="form-control" readonly />
+    <br />
+
+
+    <button class="btn btn-success">Satış Yap</button>
+</form>
+
+@section denemescript{
+
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <link href="~/Scripts/bootstrap-select.min.css" rel="stylesheet" />
+    <script src="~/Scripts/defaults-tr_TR.min.js"></script>
+    <script src="~/Scripts/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".Country").select2({
+                language: "tr",
+                placeholder: "Ürün",
+                theme: "classic",
+                ajax: {
+                    url: "/Satis/UrunListe",
+                    dataType: "json",
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term
+                        };
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: data
+                        };
+                    }
+                }
+
+            });
+            $(document).ready(function () {
+                $(".Cari").select2({
+                    language: "tr",
+                    placeholder: "Cari",
+                    theme: "classic",
+                    ajax: {
+                        url: "/Satis/CariListe",
+                        dataType: "json",
+                        data: function (params) {
+                            return {
+                                searchTerm2: params.term
+                            };
+                        },
+                        processResults: function (data, params) {
+                            return {
+                                results: data
+                            };
+                        }
+                    }
+                })
+            });
+            $(document).ready(function () {
+                $(".Personel").select2({
+                    language: "tr",
+                    placeholder: "Personel",
+                    theme: "classic",
+                    ajax: {
+                        url: "/Satis/PersonelListe",
+                        dataType: "json",
+                        data: function (params) {
+                            return {
+                                searchTerm3: params.term
+                            };
+
+                        },
+                        processResults: function (data, params) {
+                            return {
+                                results: data
+                            };
+                        }
+                    }
+                })
+            });
+
+        });
+    </script>
+    <script>
+        function Topla() {
+            var sayi1 = document.getElementById('txt1').value;
+            var sayi2 = document.getElementById('txt2').value;
+            var sonuc = parseInt(sayi1) * parseInt(sayi2);
+            if (!isNaN(sonuc)) {
+                document.getElementById('txt3').value = sonuc;
+
+
+            }
+        }
+    </script>
+
+}

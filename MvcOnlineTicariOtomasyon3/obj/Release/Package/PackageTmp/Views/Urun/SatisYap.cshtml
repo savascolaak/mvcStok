@@ -1,0 +1,54 @@
+﻿@model MvcOnlineTicariOtomasyon3.Models.Siniflar.SatisHareket
+@{
+    ViewBag.Title = "SatisYap";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<br />
+<h2>Satış Yap</h2>
+<br />
+<form class="form-group" method="post">
+
+    @Html.LabelFor(x => x.Urunid)
+    <input type="text" name="Urunid" value="@ViewBag.dgr1" class="form-control" disabled />
+    <br />
+    @Html.LabelFor(x => x.Personelid)
+    @Html.DropDownListFor(x => x.Personelid, (List<SelectListItem>)ViewBag.dgr3, new { @class = "form-control" })
+    <br />
+    <br />
+    @Html.LabelFor(x => x.Cariid)
+    @Html.TextBoxFor(x => x.Cariid, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Adet)
+    <input type="number" id="txt2" name="Adet" onchange=Topla() max="@ViewBag.d4" min="1"  class="form-control" />
+    <br />
+    <br />
+    @Html.LabelFor(x => x.Fiyat)
+    <input type="text" id="txt1" name="Fiyat" onchange=Topla() value="@ViewBag.dgr2" class="form-control" />
+    <br />
+    <br />
+    @Html.LabelFor(x => x.ToplamTutar)
+    <input type="text" id="txt3" name="ToplamTutar"  class="form-control" readonly />
+    <br />
+    
+    <button class="btn btn-warning">Satış Yap</button>
+
+</form>
+<br />
+@*<input type="text" id="txt1" onkeyup="Topla()"; />
+<input type="text" id="txt2" onkeyup="Topla()"; />*@
+@*<input type="text" id="txt3"; />*@
+
+<script>
+    function Topla() {
+        var sayi1 = document.getElementById('txt1').value;
+        var sayi2 = document.getElementById('txt2').value;
+        var sonuc = parseInt(sayi1) * parseInt(sayi2);
+        if (!isNaN(sonuc)) {
+            document.getElementById('txt3').value = sonuc;
+
+
+        }
+    }
+</script>
+
+

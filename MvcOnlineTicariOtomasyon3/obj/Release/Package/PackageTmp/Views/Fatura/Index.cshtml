@@ -1,0 +1,91 @@
+﻿@using MvcOnlineTicariOtomasyon3.Models.Siniflar
+@model List<Faturalar>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<br />
+<h2>Departman Listesi</h2>
+<br />
+<table class="table table-bordered">
+
+    <tr>
+        
+        <th>Seri Sıra No</th>
+        <th>Tarih</th>
+        <th>Saat</th>
+        <th>Toplam</th>
+        <th>Güncelle</th>
+        <th>Teslim Detaylar</th>
+        <th>Popup Liste</th>
+        <th>Yeni Kalem</th>
+        
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            
+            <td>@item.FaturaSeriNo @item.FaturaSıraNo</td>
+           
+           
+            <td>@item.Tarih</td>
+            <td>@item.Saat</td>
+           
+            <td>@item.Toplam ₺</td>
+
+
+            <td><a href="/Fatura/FaturaGetir/@item.Faturaid" class="btn btn-warning">Güncelle</a></td>
+            <td><a href="/Fatura/FaturaDetay/@item.Faturaid" class="btn btn-default" style="background-color:lightcoral">Detaylar</a></td>
+            <td><button type="button" class="btn btn-warning de" name="btnpopup" id="de" data-id="@item.Faturaid" style="background-color:#ff6a00;  color:white;" data-toggle="modal" data-target="#Modal1">Popup Penceresi</button></td>
+            <td><a href="/Fatura/FaturaDetay/@item.Faturaid" class="btn btn-default" style="background-color:thistle">Kalem</a></td>
+        </tr>
+    }
+
+
+
+</table>
+<a href="/Fatura/FaturaEkle/" class="btn btn-success">Fatura Oluştur</a>
+<br /> <br />
+      
+<div class="modal" id="Modal1">
+   <div class="modal-dialog">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h3 class="modal-title">Popup Dialog Ekranı</h3>
+           </div>
+           <div class="modal-body">
+               <table class="table table-striped">
+                   <tr>
+                       <td>Seri No</td>
+                       <td>Sıra No</td>
+                       <td>Tutar</td>
+                   </tr>
+                   @foreach (var item in Model)
+                   {
+                   <tr>
+                       <td>@item.FaturaSeriNo</td>
+                       <td>@item.FaturaSıraNo</td>
+                       <td>@item.Toplam</td>
+                   </tr>
+                   }
+               </table>
+               <button type="button" class="btn btn-danger" data-dismiss="modal">Tamam</button>
+           </div>
+       </div>
+   </div>
+</div>
+@section denemescript{
+<script type="text/javascript">
+    console.log(123123123)
+    $(document).ready(function () {
+        $(".de").on("click", function (e) {
+            var id = $(e.target).get(0).dataset.id
+            console.log(12312312312)
+            $.get("/Fatura/FaturaDetay/" + id, function (data) {
+                console.log(12312)
+            }
+            )
+            @*@Url.Action("FaturaDetay", "Fatura", new { id= })   })*@
+    })
+</script>
+    }
